@@ -1,0 +1,3 @@
+Configure Emacs for fun. :-)
+
+I'm trying to make this configuration small and elegant.
