@@ -1,5 +1,11 @@
+;;; package -- Summary
+;;; Commentary:
+
 ;; Date:   2018/12/20
 ;; Author: 9m9
+
+
+;;; Code:
 
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
@@ -19,13 +25,25 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (fuzzy auto-complete hl-sexp cnfonts rainbow-blocks rainbow-delimiters rainbow-delimiters-mode magit go-mode lispy use-package))))
+    (yasnippet-snippets yasnippet exec-path-from-shell flycheck go-eldoc fuzzy auto-complete hl-sexp cnfonts rainbow-blocks rainbow-delimiters rainbow-delimiters-mode magit go-mode lispy use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+;; (with-eval-after-load
+;;     'use-package
+;;   (setq use-package-verbose t))
+
+(use-package
+  exec-path-from-shell
+  :ensure t
+  :config (when (memq
+		 window-system
+		 '(mac ns x))
+	    (exec-path-from-shell-initialize)))
 
 (use-package
   magit
@@ -62,6 +80,26 @@
 (setq exec-path (append exec-path '("~/go/bin")))
 
 (use-package
+  go-eldoc
+  :ensure t
+  :hook (go-mode . go-eldoc-setup))
+
+;; https://www.flycheck.org/en/latest/languages.html#flycheck-languages
+(use-package
+  flycheck
+  :ensure t
+  :init (global-flycheck-mode))
+
+(use-package
+  yasnippet
+  :ensure t
+  :init (yas-global-mode 1)
+  :config
+  (use-package
+    yasnippet-snippets
+    :ensure t))
+
+(use-package
   cnfonts
   :ensure t
   :config (cnfonts-enable))
@@ -69,7 +107,7 @@
 (use-package
   auto-complete
   :ensure t
-  :hook ((prog-mode text-mode) . auto-complete-mode)
+  :init (global-auto-complete-mode)
   :config (ac-config-default)
   (use-package fuzzy :ensure t)
   :bind (:map ac-mode-map
@@ -78,7 +116,8 @@
   (ac-use-menu-map t))
 
 (defun 9m9/run-python ()
-  (interactive)
+  "Run python script using shortcut."
+  (Interactive)
   (save-buffer)
   (shell-command
    (format
@@ -95,6 +134,7 @@
   'eval-buffer)
 
 (defun 9m9/open-init ()
+  "Open init.el file."
   (interactive)
   (find-file
    "~/.emacs.d/init.el"))
@@ -104,6 +144,7 @@
  '9m9/open-init)
 
 (defun 9m9/switch-to-scratch ()
+  "Switch to *scratch* buffer."
   (interactive)
   (switch-to-buffer "*scratch*"))
 
@@ -119,3 +160,5 @@
 ;; (global-set-key (kbd "<f6>") (lambda () (interactive) (other-frame -1)))
 
 (message (emacs-init-time))
+
+;;; init.el ends here
