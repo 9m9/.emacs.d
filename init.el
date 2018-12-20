@@ -7,8 +7,10 @@
 ;; You may delete these explanatory comments.
 (package-initialize)
 
-(setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
-			 ("melpa" . "http://elpa.emacs-china.org/melpa/")))
+(setq package-archives
+      '(("gnu" . "http://elpa.emacs-china.org/gnu/")
+	("melpa" . "http://elpa.emacs-china.org/melpa/")
+	("marmalade" . "https://marmalade-repo.org/packages/")))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -17,7 +19,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (rainbow-blocks rainbow-delimiters rainbow-delimiters-mode magit go-mode lispy use-package))))
+    (auto-complete hl-sexp cnfonts rainbow-blocks rainbow-delimiters rainbow-delimiters-mode magit go-mode lispy use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -46,12 +48,23 @@
   :hook ((emacs-lisp-mode lisp-mode) . rainbow-blocks-mode))
 
 (use-package
+  hl-sexp
+  :ensure t
+  :hook ((emacs-lisp-mode lisp-mode) . hl-sexp-mode))
+
+(use-package
   go-mode
   :ensure t
-  :config ;; (autoload 'go-mode "go-mode" nil t)
-  (add-to-list
-   'auto-mode-alist
-   '("\\.go\\'" . go-mode)))
+  :mode "\\.go\\'")
+
+(use-package
+  cnfonts
+  :ensure t
+  :config (cnfonts-enable))
+
+(use-package
+  auto-complete
+  :ensure t)
 
 (with-eval-after-load
     'python
