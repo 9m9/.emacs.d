@@ -19,7 +19,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (auto-complete hl-sexp cnfonts rainbow-blocks rainbow-delimiters rainbow-delimiters-mode magit go-mode lispy use-package))))
+    (fuzzy auto-complete hl-sexp cnfonts rainbow-blocks rainbow-delimiters rainbow-delimiters-mode magit go-mode lispy use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -64,12 +64,14 @@
 
 (use-package
   auto-complete
-  :ensure t)
-
-(with-eval-after-load
-    'python
-  (define-key python-mode-map (kbd "<f5>")
-    '9m9/run-python))
+  :ensure t
+  :hook ((prog-mode text-mode) . auto-complete-mode)
+  :config (ac-config-default)
+  (use-package fuzzy :ensure t)
+  :bind (:map ac-mode-map
+  	      ("C-<tab>" . auto-complete))
+  :custom (ac-use-fuzzy t)
+  (ac-use-menu-map t))
 
 (defun 9m9/run-python ()
   (interactive)
@@ -79,6 +81,11 @@
     "python3 %s"
     (file-name-nondirectory
      buffer-file-name))))
+
+(with-eval-after-load
+    'python
+  (define-key python-mode-map (kbd "<f5>")
+    '9m9/run-python))
 
 (define-key emacs-lisp-mode-map (kbd "C-c C-e")
   'eval-buffer)
@@ -91,6 +98,14 @@
 (global-set-key
  (kbd "<f12>")
  '9m9/open-init)
+
+(defun 9m9/switch-to-scratch ()
+  (interactive)
+  (switch-to-buffer "*scratch*"))
+
+(global-set-key
+ (kbd "C-c s")
+ '9m9/switch-to-scratch)
 
 (tool-bar-mode -233)
 (menu-bar-mode -233)
