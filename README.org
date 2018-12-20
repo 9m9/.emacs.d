@@ -1,3 +1,16 @@
 Configure Emacs for fun. :-)
 
 I'm trying to make this configuration small and elegant.
+
+** Setup
+
+#+BEGIN_SRC bash
+# backup original .emacs.d directory first
+cd ~ && mv .emacs.d .emacs.d.bak
+
+# install go and configure GOPATH
+
+# clone and run setup script
+git clone git@github.com:9m9/.emacs.d.git ~/.emacs.d
+bash setup.sh
+#+END_SRC

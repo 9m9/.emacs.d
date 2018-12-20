@@ -57,6 +57,10 @@
   :ensure t
   :mode "\\.go\\'")
 
+(add-to-list 'load-path "~/.emacs.d/packages/gocode")
+(require 'go-autocomplete)
+(setq exec-path (append exec-path '("~/go/bin")))
+
 (use-package
   cnfonts
   :ensure t
