@@ -25,7 +25,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (yasnippet-snippets yasnippet exec-path-from-shell flycheck go-eldoc fuzzy auto-complete hl-sexp cnfonts rainbow-blocks rainbow-delimiters rainbow-delimiters-mode magit go-mode lispy use-package))))
+    (powerline delight-powerline tabbar yasnippet-snippets yasnippet exec-path-from-shell flycheck go-eldoc fuzzy auto-complete hl-sexp cnfonts rainbow-blocks rainbow-delimiters rainbow-delimiters-mode magit go-mode lispy use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -33,9 +33,25 @@
  ;; If there is more than one, they won't work right.
  )
 
-;; (with-eval-after-load
-;;     'use-package
-;;   (setq use-package-verbose t))
+(setq-default use-package-verbose t)
+(add-to-list 'load-path "~/.emacs.d/packages")
+;; (require 'xub-mode)
+
+(use-package
+  powerline
+  :ensure t
+  :config
+  (powerline-default-theme))
+
+(use-package
+  delight
+  :ensure t
+  :config
+  (require 'delight-powerline))
+
+(delight '((emacs-lisp-mode "el" :major)
+	   (fundamental-mode "F" :major)
+	   (abbrev-mode " abrev" abbrev)))
 
 (use-package
   exec-path-from-shell
@@ -48,11 +64,13 @@
 (use-package
   magit
   :ensure t
+  :delight (magit-status-mode "MA")
   :bind (("C-x g" . magit-status)))
 
 (use-package
   lispy
   :ensure t
+  :delight " lispy"
   :hook ((emacs-lisp-mode lisp-mode) . lispy-mode))
 
 (use-package
@@ -63,41 +81,48 @@
 (use-package
   rainbow-blocks
   :ensure t
+  :delight
   :hook ((emacs-lisp-mode lisp-mode) . rainbow-blocks-mode))
 
 (use-package
   hl-sexp
   :ensure t
   :hook ((emacs-lisp-mode lisp-mode) . hl-sexp-mode))
-
 (use-package
   go-mode
   :ensure t
   :mode "\\.go\\'")
-
-(add-to-list 'load-path "~/.emacs.d/packages/gocode")
+(add-to-list 'load-path "~/.emacs.d/packages/gocode/")
 (require 'go-autocomplete)
+
 (setq exec-path (append exec-path '("~/go/bin")))
 
 (use-package
   go-eldoc
   :ensure t
   :hook (go-mode . go-eldoc-setup))
-
 ;; https://www.flycheck.org/en/latest/languages.html#flycheck-languages
+
 (use-package
   flycheck
   :ensure t
+  :delight " flycheck"
   :init (global-flycheck-mode))
 
 (use-package
   yasnippet
   :ensure t
   :init (yas-global-mode 1)
+  :delight (yas-minor-mode " yas")
   :config
   (use-package
     yasnippet-snippets
     :ensure t))
+
+(use-package
+  tabbar
+  :ensure t
+  :init (tabbar-mode t))
 
 (use-package
   cnfonts
@@ -108,6 +133,7 @@
   auto-complete
   :ensure t
   :init (global-auto-complete-mode)
+  :diminish " auto-com"
   :config (ac-config-default)
   (use-package fuzzy :ensure t)
   :bind (:map ac-mode-map
