@@ -20,4 +20,4 @@ bash setup.sh
 
 #+CAPTION: Screenshot of Emacs
 #+NAME:   fig:2018/12/21 20:07:49
-[[./img/2018-12-21-20:07:49.png][file:~/.emacs.d/img/2018-12-21-20:07:49.png]]
+[[./img/2018-12-21-20:07:49.png]]
