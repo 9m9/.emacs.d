@@ -14,3 +14,8 @@ cd ~ && mv .emacs.d .emacs.d.bak
 git clone git@github.com:9m9/.emacs.d.git ~/.emacs.d
 bash setup.sh
 #+END_SRC
+
+* Screenshots
+** <2018-12-21 五 20:08>
+
+[[file:img/2018-12-21-20:07:49.png][file:~/.emacs.d/img/2018-12-21-20:07:49.png]]
