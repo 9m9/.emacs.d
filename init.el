@@ -25,7 +25,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (powerline delight-powerline tabbar yasnippet-snippets yasnippet exec-path-from-shell flycheck go-eldoc fuzzy auto-complete hl-sexp cnfonts rainbow-blocks rainbow-delimiters rainbow-delimiters-mode magit go-mode lispy use-package))))
+    (counsel tabbar-ruler powerline delight-powerline tabbar yasnippet-snippets yasnippet exec-path-from-shell flycheck go-eldoc fuzzy auto-complete hl-sexp cnfonts rainbow-blocks rainbow-delimiters rainbow-delimiters-mode magit go-mode lispy use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -36,6 +36,10 @@
 (setq-default use-package-verbose t)
 (add-to-list 'load-path "~/.emacs.d/packages")
 ;; (require 'xub-mode)
+
+(add-to-list 'load-path "~/.emacs.d/packages/mode-icons/")
+(require 'mode-icons)
+(mode-icons-mode)
 
 (use-package
   powerline
@@ -64,14 +68,28 @@
 (use-package
   magit
   :ensure t
-  :delight (magit-status-mode "MA")
+  ;; :delight (magit-status-mode "MA")
   :bind (("C-x g" . magit-status)))
 
 (use-package
   lispy
+  ;; dependency package: swiper, ivy, hydra, ace-window
   :ensure t
-  :delight " lispy"
-  :hook ((emacs-lisp-mode lisp-mode) . lispy-mode))
+  :delight
+  :hook ((emacs-lisp-mode lisp-mode) . lispy-mode)
+  :config
+  (ivy-mode 233)
+  :bind
+  (("C-s" . swiper)))
+
+(use-package counsel
+  :ensure t
+  :bind
+  (("M-x" . counsel-M-x)
+   ("C-x C-f" . counsel-find-file)
+   ("<f2> f" . counsel-describe-function)
+   ("<f2> v" . counsel-describe-variable)
+   ("C-c k" . counsel-ag)))
 
 (use-package
   rainbow-delimiters
@@ -106,14 +124,13 @@
 (use-package
   flycheck
   :ensure t
-  :delight " flycheck"
   :init (global-flycheck-mode))
 
 (use-package
   yasnippet
   :ensure t
   :init (yas-global-mode 1)
-  :delight (yas-minor-mode " yas")
+  ;; :delight (yas-minor-mode " yas")
   :config
   (use-package
     yasnippet-snippets
@@ -122,7 +139,15 @@
 (use-package
   tabbar
   :ensure t
-  :init (tabbar-mode t))
+  :init (tabbar-mode t)
+  :config
+  (use-package
+    tabbar-ruler
+    :ensure t
+    :bind (("C-c t" . tabbar-ruler-move))
+    :init
+    (setq tabbar-ruler-global-tabbar t
+	  tabbar-ruler-global-ruler t)))
 
 (use-package
   cnfonts
@@ -133,7 +158,6 @@
   auto-complete
   :ensure t
   :init (global-auto-complete-mode)
-  :diminish " auto-com"
   :config (ac-config-default)
   (use-package fuzzy :ensure t)
   :bind (:map ac-mode-map
