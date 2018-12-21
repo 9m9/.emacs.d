@@ -25,7 +25,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (counsel tabbar-ruler powerline delight-powerline tabbar yasnippet-snippets yasnippet exec-path-from-shell flycheck go-eldoc fuzzy auto-complete hl-sexp cnfonts rainbow-blocks rainbow-delimiters rainbow-delimiters-mode magit go-mode lispy use-package))))
+    (flycheck-popup-tip flycheck-irony irony-eldoc irony irony-mode sr-speedbar counsel tabbar-ruler powerline delight-powerline tabbar yasnippet-snippets yasnippet exec-path-from-shell flycheck go-eldoc fuzzy auto-complete hl-sexp cnfonts rainbow-blocks rainbow-delimiters rainbow-delimiters-mode magit go-mode lispy use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -79,10 +79,11 @@
   :hook ((emacs-lisp-mode lisp-mode) . lispy-mode)
   :config
   (ivy-mode 233)
-  (ace-window-display-mode)
+  ;; (ace-window-display-mode)
   :bind
   (("C-s" . swiper)
-   ("M-]" . ace-window))
+   ;; ("M-]" . ace-window)
+   )
   :custom
   (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
   (aw-dispatch-alist
@@ -122,6 +123,7 @@
   hl-sexp
   :ensure t
   :hook ((emacs-lisp-mode lisp-mode) . hl-sexp-mode))
+
 (use-package
   go-mode
   :ensure t
@@ -140,7 +142,12 @@
 (use-package
   flycheck
   :ensure t
-  :init (global-flycheck-mode))
+  :init (global-flycheck-mode)
+  :config
+  (use-package
+    flycheck-popup-tip
+    :ensure t
+    :hook ((flycheck-mode) . flycheck-popup-tip-mode)))
 
 (use-package
   yasnippet
@@ -181,6 +188,38 @@
   :custom (ac-use-fuzzy t)
   (ac-use-menu-map t))
 
+(use-package
+  ggtags
+  :ensure t
+  :hook ((prog-mode c++-mode c-mode) . ggtags-mode)
+  :bind
+  (("C-c g c" . ggtags-create-tags)
+   ("C-c g s" . ggtags-find-other-symbol)
+   ("C-c g h" . ggtags-view-tag-history)
+   ("C-c g r" . ggtags-find-reference)
+   ("C-c g f" . ggtags-find-file)
+   ("C-c g u" . ggtags-update-tags)))
+
+(use-package
+  sr-speedbar
+  :ensure t
+  :bind
+  (("<f5>" . sr-speedbar-toggle)))
+
+(use-package
+  irony
+  :ensure t
+  :hook ((c-mode c++-mode) . irony-mode)
+  ((irony-mode) . irony-cdb-autosetup-compile-options)
+  :config
+  (use-package
+    irony-eldoc
+    :ensure t
+    :hook ((irony-mode) . irony-eldoc))
+  (use-package
+    flycheck-irony
+    :ensure t))
+
 (defun 9m9/run-python ()
   "Run python script using shortcut."
   (Interactive)
@@ -220,7 +259,7 @@
 
 (tool-bar-mode -233)
 (menu-bar-mode -233)
-(toggle-debug-on-error)
+;; (toggle-debug-on-error)
 (column-number-mode 233)
 ;; (global-set-key (kbd "<f5>") (lambda () (interactive) (other-frame 1)))
 ;; (global-set-key (kbd "<f6>") (lambda () (interactive) (other-frame -1)))
