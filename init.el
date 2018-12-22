@@ -25,7 +25,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (ggtags delight flycheck-popup-tip flycheck-irony irony-eldoc irony irony-mode sr-speedbar counsel tabbar-ruler powerline delight-powerline tabbar yasnippet-snippets yasnippet exec-path-from-shell flycheck go-eldoc fuzzy auto-complete hl-sexp cnfonts rainbow-blocks rainbow-delimiters rainbow-delimiters-mode magit go-mode lispy use-package))))
+    (ac-c-headers expand-region ggtags delight flycheck-popup-tip flycheck-irony irony-eldoc irony irony-mode sr-speedbar counsel tabbar-ruler powerline delight-powerline tabbar yasnippet-snippets yasnippet exec-path-from-shell flycheck go-eldoc fuzzy auto-complete hl-sexp cnfonts rainbow-blocks rainbow-delimiters rainbow-delimiters-mode magit go-mode lispy use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -133,8 +133,9 @@
   :mode "\\.go\\'"
   :config
   (setq godoc-at-point-function 'godoc-gogetdoc)
+  (add-hook 'before-save-hook 'gofmt-before-save)
   :bind (:map go-mode-map
-	 ("<f2> f" . godoc-at-point)))
+	      ("<f2> f" . godoc-at-point)))
 
 (setq exec-path (append exec-path '("~/go/bin")))
 
@@ -189,6 +190,9 @@
   :init (global-auto-complete-mode)
   :config (ac-config-default)
   (use-package fuzzy :ensure t)
+  (use-package ac-c-headers :ensure t)
+  (add-to-list 'ac-sources 'ac-source-c-headers)
+  (add-to-list 'ac-sources 'ac-source-c-header-symbols t)
   :bind (:map ac-mode-map
   	      ("C-<tab>" . auto-complete))
   :custom (ac-use-fuzzy t)
@@ -225,6 +229,11 @@
   (use-package
     flycheck-irony
     :ensure t))
+
+(use-package
+  expand-region
+  :ensure t
+  :bind (("C-=" . er/expand-region)))
 
 (defun 9m9/run-python ()
   "Run python script using shortcut."
