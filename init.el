@@ -25,7 +25,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (flycheck-popup-tip flycheck-irony irony-eldoc irony irony-mode sr-speedbar counsel tabbar-ruler powerline delight-powerline tabbar yasnippet-snippets yasnippet exec-path-from-shell flycheck go-eldoc fuzzy auto-complete hl-sexp cnfonts rainbow-blocks rainbow-delimiters rainbow-delimiters-mode magit go-mode lispy use-package))))
+    (ggtags delight flycheck-popup-tip flycheck-irony irony-eldoc irony irony-mode sr-speedbar counsel tabbar-ruler powerline delight-powerline tabbar yasnippet-snippets yasnippet exec-path-from-shell flycheck go-eldoc fuzzy auto-complete hl-sexp cnfonts rainbow-blocks rainbow-delimiters rainbow-delimiters-mode magit go-mode lispy use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -124,12 +124,17 @@
   :ensure t
   :hook ((emacs-lisp-mode lisp-mode) . hl-sexp-mode))
 
+(add-to-list 'load-path "~/.emacs.d/packages/gocode/")
+(require 'go-autocomplete)
+
 (use-package
   go-mode
   :ensure t
-  :mode "\\.go\\'")
-(add-to-list 'load-path "~/.emacs.d/packages/gocode/")
-(require 'go-autocomplete)
+  :mode "\\.go\\'"
+  :config
+  (setq godoc-at-point-function 'godoc-gogetdoc)
+  :bind (:map go-mode-map
+	 ("<f2> f" . godoc-at-point)))
 
 (setq exec-path (append exec-path '("~/go/bin")))
 
@@ -137,6 +142,7 @@
   go-eldoc
   :ensure t
   :hook (go-mode . go-eldoc-setup))
+
 ;; https://www.flycheck.org/en/latest/languages.html#flycheck-languages
 
 (use-package
