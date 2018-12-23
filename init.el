@@ -14,8 +14,10 @@
 (package-initialize)
 
 (setq package-archives
-      '(("gnu" . "http://elpa.emacs-china.org/gnu/")
-	("melpa" . "http://elpa.emacs-china.org/melpa/")
+      '(;; ("gnu" . "http://elpa.emacs-china.org/gnu/")
+	("gnu" . "https://elpa.gnu.org/packages/")
+	;; ("melpa" . "http://elpa.emacs-china.org/melpa/")
+	("melpa" . "https://melpa.org/packages/")
 	("marmalade" . "https://marmalade-repo.org/packages/")))
 
 (custom-set-variables
@@ -25,7 +27,8 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (go-playground ac-c-headers expand-region ggtags delight flycheck-popup-tip flycheck-irony irony-eldoc irony irony-mode sr-speedbar counsel tabbar-ruler powerline delight-powerline tabbar yasnippet-snippets yasnippet exec-path-from-shell flycheck go-eldoc fuzzy auto-complete hl-sexp cnfonts rainbow-blocks rainbow-delimiters rainbow-delimiters-mode magit go-mode lispy use-package))))
+    (elpy go-playground ac-c-headers expand-region ggtags delight flycheck-popup-tip flycheck-irony irony-eldoc irony irony-mode sr-speedbar counsel tabbar-ruler powerline delight-powerline tabbar yasnippet-snippets yasnippet exec-path-from-shell flycheck go-eldoc fuzzy auto-complete hl-sexp cnfonts rainbow-blocks rainbow-delimiters rainbow-delimiters-mode magit go-mode lispy use-package)))
+ '(python-shell-interpreter "/Users/liuxueyang/repos/runtime/bin/python"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -37,9 +40,9 @@
 (add-to-list 'load-path "~/.emacs.d/packages")
 ;; (require 'xub-mode)
 
-(add-to-list 'load-path "~/.emacs.d/packages/mode-icons/")
-(require 'mode-icons)
-(mode-icons-mode)
+;; (add-to-list 'load-path "~/.emacs.d/packages/mode-icons/")
+;; (require 'mode-icons)
+;; (mode-icons-mode)
 
 (use-package
   powerline
@@ -79,10 +82,10 @@
   :hook ((emacs-lisp-mode lisp-mode) . lispy-mode)
   :config
   (ivy-mode 233)
-  ;; (ace-window-display-mode)
+  (ace-window-display-mode)
   :bind
   (("C-s" . swiper)
-   ;; ("M-]" . ace-window)
+   ("M-p" . ace-window)
    )
   :custom
   (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
@@ -125,7 +128,7 @@
   :hook ((emacs-lisp-mode lisp-mode) . hl-sexp-mode))
 
 (add-to-list 'load-path "~/.emacs.d/packages/gocode/")
-(require 'go-autocomplete)
+;; (require 'go-autocomplete)
 
 (use-package
   go-mode
@@ -171,18 +174,19 @@
     yasnippet-snippets
     :ensure t))
 
-(use-package
-  tabbar
-  :ensure t
-  :init (tabbar-mode t)
-  :config
-  (use-package
-    tabbar-ruler
-    :ensure t
-    :bind (("C-c t" . tabbar-ruler-move))
-    :init
-    (setq tabbar-ruler-global-tabbar t
-	  tabbar-ruler-global-ruler t)))
+;; (use-package
+;;   tabbar
+;;   :ensure t
+;;   :init (tabbar-mode t)
+;;   :config
+;;   ;; (use-package
+;;   ;;   tabbar-ruler
+;;   ;;   :ensure t
+;;   ;;   :bind (("C-c t" . tabbar-ruler-move))
+;;   ;;   :init
+;;   ;;   (setq tabbar-ruler-global-tabbar t
+;;   ;; 	  tabbar-ruler-global-ruler t))
+;;   )
 
 (use-package
   cnfonts
@@ -239,6 +243,10 @@
   expand-region
   :ensure t
   :bind (("C-=" . er/expand-region)))
+
+(use-package
+  elpy
+  :ensure t)
 
 (defun 9m9/run-python ()
   "Run python script using shortcut."
