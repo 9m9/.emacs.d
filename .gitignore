@@ -8,3 +8,5 @@ ac-comphist.dat
 go-autocomplete.el
 irony
 semanticdb/
+transient/
+xkcd/

@@ -25,7 +25,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (go-playground ac-c-headers expand-region ggtags delight flycheck-popup-tip flycheck-irony irony-eldoc irony irony-mode sr-speedbar counsel tabbar-ruler powerline delight-powerline tabbar yasnippet-snippets yasnippet exec-path-from-shell flycheck go-eldoc fuzzy auto-complete hl-sexp cnfonts rainbow-blocks rainbow-delimiters rainbow-delimiters-mode magit go-mode lispy use-package))))
+    (xkcd writeroom-mode go-playground ac-c-headers expand-region ggtags delight flycheck-popup-tip flycheck-irony irony-eldoc irony irony-mode sr-speedbar counsel tabbar-ruler powerline delight-powerline tabbar yasnippet-snippets yasnippet exec-path-from-shell flycheck go-eldoc fuzzy auto-complete hl-sexp cnfonts rainbow-blocks rainbow-delimiters rainbow-delimiters-mode magit go-mode lispy use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -37,9 +37,9 @@
 (add-to-list 'load-path "~/.emacs.d/packages")
 ;; (require 'xub-mode)
 
-(add-to-list 'load-path "~/.emacs.d/packages/mode-icons/")
-(require 'mode-icons)
-(mode-icons-mode)
+;; (add-to-list 'load-path "~/.emacs.d/packages/mode-icons/")
+;; (require 'mode-icons)
+;; (mode-icons-mode)
 
 (use-package
   powerline
@@ -171,18 +171,18 @@
     yasnippet-snippets
     :ensure t))
 
-(use-package
-  tabbar
-  :ensure t
-  :init (tabbar-mode t)
-  :config
-  (use-package
-    tabbar-ruler
-    :ensure t
-    :bind (("C-c t" . tabbar-ruler-move))
-    :init
-    (setq tabbar-ruler-global-tabbar t
-	  tabbar-ruler-global-ruler t)))
+;; (use-package
+;;   tabbar
+;;   :ensure t
+;;   :init (tabbar-mode t)
+;;   :config
+;;   (use-package
+;;     tabbar-ruler
+;;     :ensure t
+;;     :bind (("C-c t" . tabbar-ruler-move))
+;;     :init
+;;     (setq tabbar-ruler-global-tabbar t
+;; 	  tabbar-ruler-global-ruler t)))
 
 (use-package
   cnfonts
